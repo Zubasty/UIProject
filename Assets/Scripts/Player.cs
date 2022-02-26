@@ -1,14 +1,20 @@
 using System;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [SerializeField] private float _hp;
+
+    public event Action<float> SetedHP;
 
     public float HP
     {
         get => _hp;
-        private set => _hp = Mathf.Clamp(value, 0, 100);
+        private set
+        {
+            _hp = Mathf.Clamp(value, 0, 100);
+            SetedHP?.Invoke(_hp);
+        }
     }
 
     public void TakeDamage(float count)
