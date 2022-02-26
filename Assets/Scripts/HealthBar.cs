@@ -12,30 +12,30 @@ public class HealthBar : MonoBehaviour
     private float _targetValue;
     private Coroutine _nowCoroutine;
 
+    public float TargetValue
+    {
+        get => _targetValue;
+        set
+        {
+            _targetValue = value;
+            if (_nowCoroutine != null)
+                StopCoroutine(_nowCoroutine);
+            _nowCoroutine = StartCoroutine(SettingValue());
+        }
+    }
+
     private void Awake()
     {
         _player = GetComponent<Player>();
-        _targetValue = _player.HP;
+        TargetValue = _player.HP;
     }
 
-    private void OnEnable()
-    {
-        _player.SetedHP += OnSetedHP;
-    }    
+    private void OnEnable() => _player.SetedHP += OnSetedHP;
+  
+    private void OnDisable() => _player.SetedHP -= OnSetedHP;
+
+    private void OnSetedHP(float hp) => TargetValue = hp;       
     
-    private void OnDisable()
-    {
-        _player.SetedHP -= OnSetedHP;
-    }
-
-    private void OnSetedHP(float hp)
-    {
-        _targetValue = hp;
-        if (_nowCoroutine != null)
-            StopCoroutine(_nowCoroutine);
-        _nowCoroutine = StartCoroutine(SettingValue());
-    }
-
     private IEnumerator SettingValue()
     {
         while (_targetValue != _slider.value)
