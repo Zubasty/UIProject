@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _hp;
+    [SerializeField] private float _health;
 
-    public event Action<float> SetedHP;
+    public event Action<float> ChangedHealth;
 
-    public float HP
+    public float Health
     {
-        get => _hp;
+        get => _health;
         private set
         {
-            _hp = Mathf.Clamp(value, 0, 100);
-            SetedHP?.Invoke(_hp);
+            _health = Mathf.Clamp(value, 0, 100);
+            ChangedHealth?.Invoke(_health);
         }
     }
 
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Damage не может быть отрицательным");
         }
-        HP -= count;
+        Health -= count;
     }
 
     public void Heal(float count)
@@ -32,6 +32,6 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Heal не может быть отрицательным");
         }
-        HP += count;
+        Health += count;
     }
 }

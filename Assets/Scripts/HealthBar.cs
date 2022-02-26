@@ -27,14 +27,14 @@ public class HealthBar : MonoBehaviour
     private void Awake()
     {
         _player = GetComponent<Player>();
-        TargetValue = _player.HP;
+        TargetValue = _player.Health;
     }
 
-    private void OnEnable() => _player.SetedHP += OnSetedHP;
+    private void OnEnable() => _player.ChangedHealth += OnChangedHealth;
   
-    private void OnDisable() => _player.SetedHP -= OnSetedHP;
+    private void OnDisable() => _player.ChangedHealth -= OnChangedHealth;
 
-    private void OnSetedHP(float hp) => TargetValue = hp;       
+    private void OnChangedHealth(float health) => TargetValue = health;       
     
     private IEnumerator SettingValue()
     {
